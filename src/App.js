@@ -68,6 +68,9 @@ function App() {
 
   }
 
+
+  //still need to check for tie
+  //
   let playerwin = board[0] == board[7] ? 'Player 2' : 'Player 1'
   
   return (
