@@ -8,7 +8,8 @@ const boardStyle={
     display: 'flex',
     padding: '20px',
     backgroundImage: `url(${boardImage})`,
-    backgroundSize: 'cover'
+    backgroundSize: 'cover',
+    height: '350px'
 }
 const boardRowStyle = {
     display:'flex'

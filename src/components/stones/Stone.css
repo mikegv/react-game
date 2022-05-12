@@ -1,0 +1,11 @@
+.stone{
+    position: absolute;
+    display: block;
+    background-color: rgb(0, 45, 171);
+    border: solid black 1px;
+    height: 20px;
+    width: 20px;
+    border-radius: 25px;
+    margin: 20px;
+    box-shadow: inset 2px 2px 2px 2px;
+  }

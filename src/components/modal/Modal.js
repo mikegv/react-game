@@ -1,7 +1,9 @@
 
 import React from 'react';
+import './Modal.css'
 
 const Modal = (props) => {
+
   const modalStyle = {
     height: '100%',
     width: '100vw',
@@ -17,14 +19,14 @@ const Modal = (props) => {
     overflow: 'hidden',
     padding: '20px'
   }
+
   return (
     <div className='modal' style={modalStyle}>
-
-  
       <p style={{ backgroundColor: 'rgb(240,240,240)',padding: '20px' }}>Game Over</p>
       <br />
-      <p style={{ backgroundColor: 'rgb(240,240,240)',padding: '20px' }}>Congrats {props.playerwin}</p>
-
+      <p style={{ backgroundColor: 'rgb(240,240,240)',padding: '20px' }}> {props.gameResult}</p>
+      <br />
+      <button onClick={props.modalClickHandler}>New Game</button>
     </div>
   );
 };
