@@ -1,25 +1,13 @@
 import React from 'react';
+import './Board.css'
 import House from '../house/House';
-import boardImage from '../../images/woodboard.jpg'
 
-const boardStyle={
-    border: "solid black 1px",
-    borderRadius: '12px',
-    display: 'flex',
-    padding: '20px',
-    backgroundImage: `url(${boardImage})`,
-    backgroundSize: 'cover',
-    height: '350px'
-}
-const boardRowStyle = {
-    display:'flex'
-}
 const Board = (props) => {
     return (
-      <div className='board' style={boardStyle}>
+      <div className='board'>
       <House onClick={props.clickHandler} houseCount={props.board[0]} index={0} />
       <div>
-        <div className='boardrow' style={boardRowStyle}>
+        <div className='boardRow'>
           <House onClick={props.clickHandler} houseCount={props.board[13]} index={13} />
           <House onClick={props.clickHandler} houseCount={props.board[12]} index={12} />
           <House onClick={props.clickHandler} houseCount={props.board[11]} index={11} />
@@ -28,7 +16,7 @@ const Board = (props) => {
           <House onClick={props.clickHandler} houseCount={props.board[8]} index={8} />
         </div>
 
-        <div className='boardrow' style={boardRowStyle}>
+        <div className='boardRow' >
           <House onClick={props.clickHandler} houseCount={props.board[1]} index={1} />
           <House onClick={props.clickHandler} houseCount={props.board[2]} index={2} />
           <House onClick={props.clickHandler} houseCount={props.board[3]} index={3} />

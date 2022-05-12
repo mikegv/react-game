@@ -1,7 +1,7 @@
 // import './Stone.css'
 import styled from 'styled-components';
 
-const Stone = styled.span`
+const Stone = styled.div`
     position: relative;
     background-color: rgb(0,68,255);
     border: solid black 1px;

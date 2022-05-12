@@ -1,9 +1,34 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Board from './components/board/Board';
 import Modal from './components/modal/Modal';
+import Stone from './components/stones/Stone';
 
+import styled, { keyframes } from 'styled-components';
 
+//
+//keyframes for stonesAnimation
+const move = (startX, endX) => keyframes`
+  from {
+    left: ${startX + 'px'};
+  }
+  to {
+    left: ${endX + 'px'};
+  }
+`
+//
+//styled component for the animation
+const StonesAnimation = styled.div`
+  width: 50px;
+  height: 50px;
+  background-color: blueviolet;
+  position: absolute;
+  left: ${props => props.endX + 'px'};
+  top: ${props => props.startY + 'px'};
+  z-index: 13;
+  animation-name: ${props => move(props.startX, props.endX)};
+  animation-duration: 3s;
+`
 
 function App() {
 
@@ -11,10 +36,28 @@ function App() {
   const [board, setBoard] = useState(INITIAL_BOARD_STATE)
   const [gameOver, setGameOver] = useState(false)
   const [player1, setPlayer1] = useState(true)
-  const [locationY, setLocationY] = useState(0)
+  const [isMoving, setIsMoving] = useState(false)
+  const [stonesAnimationPosition, setStonesAnimationPosition] = useState({startY: 0})
+  const [firstLoad, setFirstLoad] = useState(true)
+
+
+  useEffect(
+    ()=>{
+      if(firstLoad)setFirstLoad(false)
+      if(!firstLoad)setIsMoving(true)
+      
+    }
+  , [stonesAnimationPosition])
+
+
 
   const clickHandler = (e, pocketIndex) => {
 
+    if(pocketIndex < 7){
+      setStonesAnimationPosition({startY: 500})
+    }else{
+      setStonesAnimationPosition({startY: 300})
+    }
     
     if (board[pocketIndex] === 0) return //if that pocket is empty do nothing
 
@@ -25,7 +68,6 @@ function App() {
     //distribute stones around
 
     if(stones > 0){
-      setLocationY(prevState => prevState + 50)
     }
     while (stones > 0) {
       console.log('going in index > ', index)
@@ -136,9 +178,17 @@ function App() {
 
   return (
     <div className="app">
+      {
+        isMoving && <StonesAnimation onAnimationEnd={()=>setIsMoving(false)} startX={200} endX={1000} startY={stonesAnimationPosition.startY}> 
+          <Stone />
+          <Stone />
+          <Stone />
+          <Stone />
+        </StonesAnimation> 
+       }
       <Modal gameOver={gameOver} gameResult={gameResult} modalClickHandler={modalClickHandler} />
       <p style={player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 2</p>
-      <Board clickHandler={clickHandler} board={board} locationY={locationY} />
+      <Board clickHandler={clickHandler} board={board}  />
       <p style={!player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 1</p>
     </div>
   );
