@@ -1,10 +1,50 @@
 import React from 'react';
 import './Board.css'
 import House from '../house/House';
+import Stone from '../stones/Stone';
+import styled, { keyframes } from 'styled-components';
+
+//
+//keyframes for stonesAnimation
+const move = (startX, endX) => keyframes`
+  from {
+    left: ${startX + 'px'};
+  }
+  to {
+    left: ${endX + 'px'};
+  }
+`
+//
+//styled component for the animation
+const StonesAnimation = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 60px;
+  height: 50px;
+  background-color: transparent;
+  position: absolute;
+  left: ${props => props.endX + 'px'};
+  top: ${props => props.startY + 'px'};
+  z-index: 13;
+  animation-name: ${props => move(props.startX, props.endX)};
+  animation-duration:2s;
+  animation-timing-function: ease-in-out;
+`
 
 const Board = (props) => {
-    return (
-      <div className='board'>
+
+  
+  return (
+      <div className='board' ref={props.topOfBoard}>
+        {
+        props.isMoving && <StonesAnimation onAnimationEnd={props.afterAnimation} startX={props.startX} endX={props.endX} startY={props.startY}> 
+          <Stone style={{position:'absolute', left:'10px', top: '15px', zIndex: '14'}}/>
+          <Stone />
+          <Stone />
+          <Stone />
+          <Stone />
+        </StonesAnimation> 
+       }
       <House onClick={props.clickHandler} houseCount={props.board[0]} index={0} />
       <div>
         <div className='boardRow'>

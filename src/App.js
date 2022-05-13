@@ -1,34 +1,35 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Board from './components/board/Board';
 import Modal from './components/modal/Modal';
 import Stone from './components/stones/Stone';
 
 import styled, { keyframes } from 'styled-components';
 
-//
-//keyframes for stonesAnimation
-const move = (startX, endX) => keyframes`
-  from {
-    left: ${startX + 'px'};
-  }
-  to {
-    left: ${endX + 'px'};
-  }
-`
-//
-//styled component for the animation
-const StonesAnimation = styled.div`
-  width: 50px;
-  height: 50px;
-  background-color: blueviolet;
-  position: absolute;
-  left: ${props => props.endX + 'px'};
-  top: ${props => props.startY + 'px'};
-  z-index: 13;
-  animation-name: ${props => move(props.startX, props.endX)};
-  animation-duration: 3s;
-`
+// //
+// //keyframes for stonesAnimation
+// const move = (startX, endX) => keyframes`
+//   from {
+//     left: ${startX + 'px'};
+//   }
+//   to {
+//     left: ${endX + 'px'};
+//   }
+// `
+// //
+// //styled component for the animation
+// const StonesAnimation = styled.div`
+//   width: 50px;
+//   height: 50px;
+//   background-color: blueviolet;
+//   position: absolute;
+//   left: ${props => props.endX + 'px'};
+//   top: ${props => props.startY + 'px'};
+//   z-index: 13;
+//   animation-name: ${props => move(props.startX, props.endX)};
+//   animation-duration:2s;
+//   animation-timing-function: ease-in-out;
+// `
 
 function App() {
 
@@ -37,9 +38,9 @@ function App() {
   const [gameOver, setGameOver] = useState(false)
   const [player1, setPlayer1] = useState(true)
   const [isMoving, setIsMoving] = useState(false)
-  const [stonesAnimationPosition, setStonesAnimationPosition] = useState({startY: 0})
+  const [stonesAnimationPosition, setStonesAnimationPosition] = useState({startY: 0, startX: 0, endX: 0})
   const [firstLoad, setFirstLoad] = useState(true)
-
+  const topOfBoard = useRef()
 
   useEffect(
     ()=>{
@@ -51,12 +52,18 @@ function App() {
 
 
 
+  const afterAnimation = () =>{
+    setIsMoving(false)
+  }
   const clickHandler = (e, pocketIndex) => {
-
+    let calculatedStart = (pocketIndex * 130)
+    let topStart = topOfBoard.current.offsetTop
+    
     if(pocketIndex < 7){
-      setStonesAnimationPosition({startY: 500})
+      setStonesAnimationPosition({startY: topStart + 300, startX: calculatedStart + 300, endX: 1150 })
     }else{
-      setStonesAnimationPosition({startY: 300})
+      calculatedStart = (14 - pocketIndex) * 130 
+      setStonesAnimationPosition({startY: topStart , startX: calculatedStart + 300, endX: 325})
     }
     
     if (board[pocketIndex] === 0) return //if that pocket is empty do nothing
@@ -178,18 +185,20 @@ function App() {
 
   return (
     <div className="app">
-      {
-        isMoving && <StonesAnimation onAnimationEnd={()=>setIsMoving(false)} startX={200} endX={1000} startY={stonesAnimationPosition.startY}> 
+    {console.log(topOfBoard)}
+      {/* {
+        isMoving && <StonesAnimation onAnimationEnd={()=>setIsMoving(false)} startX={stonesAnimationPosition.startX} endX={1000} startY={stonesAnimationPosition.startY}> 
           <Stone />
           <Stone />
           <Stone />
           <Stone />
         </StonesAnimation> 
-       }
+       } */}
       <Modal gameOver={gameOver} gameResult={gameResult} modalClickHandler={modalClickHandler} />
       <p style={player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 2</p>
-      <Board clickHandler={clickHandler} board={board}  />
+      <Board clickHandler={clickHandler} board={board} afterAnimation={afterAnimation} isMoving={isMoving} startX={stonesAnimationPosition.startX} endX={stonesAnimationPosition.endX} startY={stonesAnimationPosition.startY} topOfBoard={topOfBoard} />
       <p style={!player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 1</p>
+      {stonesAnimationPosition.startX}
     </div>
   );
 }
