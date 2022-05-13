@@ -37,7 +37,7 @@ const Board = (props) => {
   return (
       <div className='board' ref={props.topOfBoard}>
         {
-        props.isMoving && <StonesAnimation onAnimationEnd={props.afterAnimation} startX={props.startX} endX={props.endX} startY={props.startY}> 
+        props.isMoving && !props.gameOver && <StonesAnimation onAnimationEnd={props.afterAnimation} startX={props.startX} endX={props.endX} startY={props.startY}> 
           <Stone style={{position:'absolute', left:'10px', top: '15px', zIndex: '14'}}/>
           <Stone />
           <Stone />

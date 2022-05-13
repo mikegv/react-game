@@ -63,6 +63,8 @@ function App() {
 
 
   const clickHandler = (e, pocketIndex) => {
+    if (board[pocketIndex] === 0) return //if that pocket is empty do nothing
+
 
     let stones = board[pocketIndex]
 
@@ -77,7 +79,6 @@ function App() {
       setStonesAnimationPosition({startY: topStart , startX: calculatedStart + 300, endX: 325})
     }
     
-    if (board[pocketIndex] === 0) return //if that pocket is empty do nothing
 
     let index = pocketIndex + 1
     let state = board
@@ -199,6 +200,7 @@ function App() {
     setBoard(INITIAL_BOARD_STATE)
     setGameOver(false)
     setPlayer1(true)
+    setIsMoving(false)
   }
 
   //store the result of the game for displaying on screen
@@ -209,7 +211,7 @@ function App() {
     <div className="app">
       <Modal gameOver={gameOver} gameResult={gameResult} modalClickHandler={modalClickHandler} />
       <p style={player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 2</p>
-      <Board clickHandler={clickHandler} board={board} afterAnimation={afterAnimation} isMoving={isMoving} startX={stonesAnimationPosition.startX} endX={stonesAnimationPosition.endX} startY={stonesAnimationPosition.startY} topOfBoard={topOfBoard} />
+      <Board clickHandler={clickHandler} board={board} gameOver={gameOver} afterAnimation={afterAnimation} isMoving={isMoving} startX={stonesAnimationPosition.startX} endX={stonesAnimationPosition.endX} startY={stonesAnimationPosition.startY} topOfBoard={topOfBoard} />
       <p style={!player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 1</p>
     </div>
   );
