@@ -1,6 +1,7 @@
 
 import React from 'react';
 import './Modal.css'
+import ReactDOM from 'react-dom'
 
 const Modal = (props) => {
 
@@ -21,6 +22,8 @@ const Modal = (props) => {
   }
 
   return (
+  <>
+    {ReactDOM.createPortal(
     <div className='modal' style={modalStyle}>
       <p style={{ backgroundColor: 'rgb(240,240,240)',padding: '20px' }}>Game Over</p>
       <br />
@@ -28,6 +31,8 @@ const Modal = (props) => {
       <br />
       <button onClick={props.modalClickHandler}>New Game</button>
     </div>
+    , document.getElementById('modal-root'))}
+    </>
   );
 };
 
