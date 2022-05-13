@@ -42,10 +42,14 @@ function App() {
   const [firstLoad, setFirstLoad] = useState(true)
   const topOfBoard = useRef()
 
+
   useEffect(
     ()=>{
       if(firstLoad)setFirstLoad(false)
-      if(!firstLoad)setIsMoving(true)
+      else{
+        setIsMoving(true)
+      }
+
       
     }
   , [stonesAnimationPosition])
@@ -55,7 +59,14 @@ function App() {
   const afterAnimation = () =>{
     setIsMoving(false)
   }
+
+
+
   const clickHandler = (e, pocketIndex) => {
+
+    let stones = board[pocketIndex]
+
+
     let calculatedStart = (pocketIndex * 130)
     let topStart = topOfBoard.current.offsetTop
     
@@ -68,7 +79,6 @@ function App() {
     
     if (board[pocketIndex] === 0) return //if that pocket is empty do nothing
 
-    let stones = board[pocketIndex]
     let index = pocketIndex + 1
     let state = board
     state[pocketIndex] = 0
@@ -157,6 +167,8 @@ function App() {
       return
     }
 
+    
+
     setBoard([...state])
 
     //if the index of last one is their store and games not over then 
@@ -174,31 +186,31 @@ function App() {
     setPlayer1(() => !player1)
   }
 
+
+
+
+
+
+
+  //
+  ///
+  //
   const modalClickHandler = () => {
     setBoard(INITIAL_BOARD_STATE)
     setGameOver(false)
     setPlayer1(true)
   }
-  //store the result of the game for displaying
+
+  //store the result of the game for displaying on screen
   //
   let gameResult = board[0] === board[7] ? 'Tie!!!' : board[0] < board[7] ? 'Congrats Player 1' : 'Congrats Player 2'
 
   return (
     <div className="app">
-    {console.log(topOfBoard)}
-      {/* {
-        isMoving && <StonesAnimation onAnimationEnd={()=>setIsMoving(false)} startX={stonesAnimationPosition.startX} endX={1000} startY={stonesAnimationPosition.startY}> 
-          <Stone />
-          <Stone />
-          <Stone />
-          <Stone />
-        </StonesAnimation> 
-       } */}
       <Modal gameOver={gameOver} gameResult={gameResult} modalClickHandler={modalClickHandler} />
       <p style={player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 2</p>
       <Board clickHandler={clickHandler} board={board} afterAnimation={afterAnimation} isMoving={isMoving} startX={stonesAnimationPosition.startX} endX={stonesAnimationPosition.endX} startY={stonesAnimationPosition.startY} topOfBoard={topOfBoard} />
       <p style={!player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 1</p>
-      {stonesAnimationPosition.startX}
     </div>
   );
 }
