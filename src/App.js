@@ -39,6 +39,7 @@ function App() {
   const [player1, setPlayer1] = useState(true)
   const [isMoving, setIsMoving] = useState(false)
   const [stonesAnimationPosition, setStonesAnimationPosition] = useState({startY: 0, startX: 0, endX: 0})
+  const [numberOfStonesInMove, setNumberOfStonesInMove] = useState(0)
   const [firstLoad, setFirstLoad] = useState(true)
   const topOfBoard = useRef()
 
@@ -57,15 +58,26 @@ function App() {
 
 
   const afterAnimation = () =>{
-    setIsMoving(false)
+    let numberCheck = numberOfStonesInMove - 1
+    if(numberCheck === 0){
+      setIsMoving(false)
+      return
+    }else{
+      setStonesAnimationPosition(prevState => ({...prevState, startX: prevState.endX , endX: prevState.endX + 130 }))
+      setNumberOfStonesInMove(prevState => prevState - 1)
+    }
+
   }
 
 
 
   const clickHandler = (e, pocketIndex) => {
+
+    setNumberOfStonesInMove(board[pocketIndex])
+
     if (board[pocketIndex] === 0) return //if that pocket is empty do nothing
 
-
+    
     let stones = board[pocketIndex]
 
 
@@ -73,7 +85,8 @@ function App() {
     let topStart = topOfBoard.current.offsetTop
     
     if(pocketIndex < 7){
-      setStonesAnimationPosition({startY: topStart + 300, startX: calculatedStart + 300, endX: 1150 })
+      //setStonesAnimationPosition({startY: topStart + 300, startX: calculatedStart + 300, endX: 1150 })
+      setStonesAnimationPosition({startY: topStart + 300, startX: calculatedStart + 250, endX: calculatedStart + 450 })
     }else{
       calculatedStart = (14 - pocketIndex) * 130 
       setStonesAnimationPosition({startY: topStart , startX: calculatedStart + 300, endX: 325})

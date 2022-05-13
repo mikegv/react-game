@@ -27,7 +27,7 @@ const StonesAnimation = styled.div`
   top: ${props => props.startY + 'px'};
   z-index: 13;
   animation-name: ${props => move(props.startX, props.endX)};
-  animation-duration:2s;
+  animation-duration: .8s;
   animation-timing-function: ease-in-out;
 `
 
