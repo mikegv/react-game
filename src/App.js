@@ -38,7 +38,7 @@ function App() {
   const [gameOver, setGameOver] = useState(false)
   const [player1, setPlayer1] = useState(true)
   const [isMoving, setIsMoving] = useState(false)
-  const [stonesAnimationPosition, setStonesAnimationPosition] = useState({startY: 0, startX: 0, endX: 0})
+  const [stonesAnimationPosition, setStonesAnimationPosition] = useState({startY: 0, startX: 0, endX: 0, index: 0})
   const [numberOfStonesInMove, setNumberOfStonesInMove] = useState(0)
   const [firstLoad, setFirstLoad] = useState(true)
   const topOfBoard = useRef()
@@ -50,23 +50,125 @@ function App() {
       else{
         setIsMoving(true)
       }
-
-      
     }
   , [stonesAnimationPosition])
+
+  useEffect(
+    ()=>{
+     if(!isMoving){
+
+      let playerTotal = 0
+
+      if(board[1] === 0 & board[2] === 0 & board[3] === 0 & board[4] === 0 & board[5] === 0 & board[6] === 0 )
+      {
+        playerTotal = board[0]
+        for(let i = 8; i < 14; i++){
+            playerTotal = board[i] + playerTotal
+        }
+        console.log('player1 finished')
+        
+        setBoard(prevState => [playerTotal, 0,0,0,0,0,0,prevState[7], 0,0,0,0,0,0])
+        setGameOver(true)}
+      else if (board[8] === 0 & board[9] === 0 & board[10] === 0 & board[11] === 0 & board[12] === 0 & board[13] === 0 ) {
+        playerTotal = board[7]
+        for(let i = 1; i < 7; i++){
+            playerTotal = board[i] + playerTotal
+        }
+        console.log('player2 finished')
+        setBoard(prevState => [prevState[0], 0,0,0,0,0,0, playerTotal, 0,0,0,0,0,0])
+        setGameOver(true)
+      }
+     }
+    }
+  , [isMoving])
+
 
 
 
   const afterAnimation = () =>{
+    
     let numberCheck = numberOfStonesInMove - 1
-    if(numberCheck === 0){
-      setIsMoving(false)
-      return
+    let moveXBy
+    if(stonesAnimationPosition.index < 6){
+      moveXBy = 130
     }else{
-      setStonesAnimationPosition(prevState => ({...prevState, startX: prevState.endX , endX: prevState.endX + 130 }))
-      setNumberOfStonesInMove(prevState => prevState - 1)
+      moveXBy = -130
     }
 
+
+
+
+    if(numberCheck === 0) //if ending turn
+    {
+      //manually change board[index + 1 ] to one less stone
+      if(stonesAnimationPosition.index === 6)
+      {
+        if(player1){
+          setNumberOfStonesInMove(0)
+
+          setIsMoving(false)
+        setBoard(prevState =>  [...prevState, prevState[7]++])
+        }
+        else{
+          setStonesAnimationPosition(prevState => ({...prevState, startY: topOfBoard, startX: prevState.endX , endX: prevState.endX + moveXBy, index: prevState.index + 1 }))
+        }
+      }else if(stonesAnimationPosition.index === 13){
+        if(player1){ 
+          setStonesAnimationPosition(prevState => ({...prevState, startY: prevState.startY + 300, startX: prevState.startX, endX: prevState.endX + 150  , index: 0}))
+        }else{
+          setNumberOfStonesInMove(0)
+          setIsMoving(false)
+        setBoard(prevState =>  [...prevState, prevState[0]++])
+        
+
+        }
+      }
+      else
+        {          
+          setIsMoving(false)
+          setPlayer1(() => !player1)
+          setBoard(prevState => [...prevState, prevState[stonesAnimationPosition.index + 1]++ ]) 
+          setNumberOfStonesInMove(prevState => prevState - 1)
+        } 
+
+        /* if (board[1] === 0 & board[2] === 0 & board[3] === 0 & board[4] === 0 & board[5] === 0 & board[6] === 0 & !isMoving) {
+          setGameOver(true)
+        } */
+        /* if (board[8] === 0 & board[9] === 0 & board[10] === 0 & board[11] === 0 & board[12] === 0 & board[13] === 0 ) {
+          if(numberOfStonesInMove === 0)
+          setGameOver(true)
+        } */
+      return
+    }
+
+
+
+
+    else if(stonesAnimationPosition.index === 6 & !player1){/*else if player 2 and goes by player 1 store then skip that store*/
+    setStonesAnimationPosition(prevState => ({...prevState, startY: topOfBoard, startX: prevState.endX , endX: prevState.endX + moveXBy, index: prevState.index + 1 }))
+      /* setNumberOfStonesInMove(prevState => prevState - 1) */
+      /* setBoard(prevState => [...prevState, prevState[stonesAnimationPosition.index + 1]++ ]) */
+  }else if(stonesAnimationPosition.index === 13){
+      if(player1){
+        setStonesAnimationPosition(prevState => ({...prevState, startY: topOfBoard.current.offsetTop + 300, startX: prevState.startX, endX: prevState.endX + 150  , index: 0}))
+      }else{
+        setNumberOfStonesInMove(prevState => prevState - 1)
+        setBoard(prevState => [...prevState, prevState[0]++ ])
+        setStonesAnimationPosition(prevState => ({...prevState, startX: prevState.startX, endX: prevState.endX + 150  , startY: prevState.startY + 300, index: 0}))
+      }
+      }
+    else if(stonesAnimationPosition.index > 5 & player1){/*if player 1 and goes by player 1 store then add to that store*/
+      setStonesAnimationPosition(prevState => ({...prevState, startY: topOfBoard, startX: prevState.endX , endX: prevState.endX + moveXBy, index: prevState.index + 1 }))
+      setNumberOfStonesInMove(prevState => prevState - 1)
+      setBoard(prevState => [...prevState, prevState[stonesAnimationPosition.index + 1]++ ])
+    }
+      else{
+      setStonesAnimationPosition(prevState => ({...prevState, startX: prevState.endX , endX: prevState.endX + moveXBy, index: prevState.index + 1 }))
+      setNumberOfStonesInMove(prevState => prevState - 1)
+      setBoard(prevState => [...prevState, prevState[stonesAnimationPosition.index + 1]++ ])
+    }
+    
+    
   }
 
 
@@ -83,13 +185,17 @@ function App() {
 
     let calculatedStart = (pocketIndex * 130)
     let topStart = topOfBoard.current.offsetTop
-    
     if(pocketIndex < 7){
+      console.log("startX: ", calculatedStart + 250)
+      console.log("endX : ", calculatedStart + 450)
       //setStonesAnimationPosition({startY: topStart + 300, startX: calculatedStart + 300, endX: 1150 })
-      setStonesAnimationPosition({startY: topStart + 300, startX: calculatedStart + 250, endX: calculatedStart + 450 })
+      setStonesAnimationPosition({startY: topStart + 300, startX: calculatedStart + 250, endX: calculatedStart + 450, index: pocketIndex })
     }else{
       calculatedStart = (14 - pocketIndex) * 130 
-      setStonesAnimationPosition({startY: topStart , startX: calculatedStart + 300, endX: 325})
+      console.log("startX: ", calculatedStart + 250)
+      console.log("endX: ", calculatedStart + 250 - 150 )
+    
+      setStonesAnimationPosition({startY: topStart , startX: calculatedStart + 250, endX: calculatedStart + 250 - 140, index: pocketIndex})
     }
     
 
@@ -98,11 +204,10 @@ function App() {
     state[pocketIndex] = 0
     //distribute stones around
 
-    if(stones > 0){
-    }
+/*   
     while (stones > 0) {
       console.log('going in index > ', index)
-      console.log('stones left > ', stones)
+      console.log('stones left > ', stones) 
 
       if (state[index] === undefined) index = 0
 
@@ -112,10 +217,10 @@ function App() {
         index = 8
       }
       
-      state[index]++
+      state[index]++ 
       index++
       stones--
-    }
+    } */
 
     index--
     ///if you landed on am empty house steal the other sides stones
@@ -142,33 +247,33 @@ function App() {
     // console.log("this index: ", pocketIndex)
     // console.log('checking winner...')
 
-    if (state[1] === 0 & state[2] === 0 & state[3] === 0 & state[4] === 0 & state[5] === 0 & state[6] === 0) {
+    if (state[1] === 0 & state[2] === 0 & state[3] === 0 & state[4] === 0 & state[5] === 0 & state[6] === 0 & numberOfStonesInMove === 0) {
       //
       //player 1 has no more stones
       //transfer player 2 remaining seeds to player 2 store
       //
-      state[0] = state[0] + state[8] + state[9] + state[10] + state[11] + state[12] + state[13]
+      /* state[0] = state[0] + state[8] + state[9] + state[10] + state[11] + state[12] + state[13] */
 
       //
       //make this for loop into its own function to call in the two cases where someone ran out of stones
-      for (let i = 1; i < state.length; i++) {
+      /* for (let i = 1; i < state.length; i++) {
         if (i !== 7) {
           state[i] = 0
         }
-      }
+      } */
       //for all indexes of the array set them all to zero except for the two stores, index 0 & 7 
 
 
       setBoard([...state])
-      setGameOver(true)
+      /* setGameOver(true) */
       return
     }
-    if (state[8] === 0 & state[9] === 0 & state[10] === 0 & state[11] === 0 & state[12] === 0 & state[13] === 0) {
+    if (state[8] === 0 & state[9] === 0 & state[10] === 0 & state[11] === 0 & state[12] === 0 & state[13] === 0 & numberOfStonesInMove === 0) {
       //
       //player 2 has no more stones
       //transfer player 1 remaining seeds to player 1 store
       //     
-      state[7] = state[7] + state[1] + state[2] + state[3] + state[4] + state[5] + state[6]
+      /* state[7] = state[7] + state[1] + state[2] + state[3] + state[4] + state[5] + state[6]
 
       for (let i = 1; i < state.length; i++) {
         if (i !== 7) {
@@ -177,8 +282,8 @@ function App() {
       }
 
       setBoard([...state])
-      setGameOver(true)
-      return
+      
+      return */
     }
 
     
@@ -197,7 +302,7 @@ function App() {
     if (index === 0 & !player1) {
       return
     }
-    setPlayer1(() => !player1)
+    /* setPlayer1(() => !player1) */
   }
 
 
@@ -220,8 +325,12 @@ function App() {
   //
   let gameResult = board[0] === board[7] ? 'Tie!!!' : board[0] < board[7] ? 'Congrats Player 1' : 'Congrats Player 2'
 
+  
+
+
   return (
     <div className="app">
+    
       <Modal gameOver={gameOver} gameResult={gameResult} modalClickHandler={modalClickHandler} />
       <p style={player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 2</p>
       <Board clickHandler={clickHandler} board={board} gameOver={gameOver} afterAnimation={afterAnimation} isMoving={isMoving} startX={stonesAnimationPosition.startX} endX={stonesAnimationPosition.endX} startY={stonesAnimationPosition.startY} topOfBoard={topOfBoard} />
