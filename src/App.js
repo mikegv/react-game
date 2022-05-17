@@ -34,7 +34,7 @@ import styled, { keyframes } from 'styled-components';
 function App() {
   const DEMO_STATE = [0, 2, 5, 0, 0, 0, 1, 0, 1, 2, 3, 0, 0, 1,0]
   const INITIAL_BOARD_STATE = [0, 4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4]
-  const [board, setBoard] = useState(DEMO_STATE)
+  const [board, setBoard] = useState(INITIAL_BOARD_STATE)
   const [gameOver, setGameOver] = useState(false)
   const [player1, setPlayer1] = useState(true)
   const [isMoving, setIsMoving] = useState(false)
