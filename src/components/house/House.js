@@ -51,7 +51,7 @@ const House = (props) => {
       <span style={{ fontWeight: 'bolder' }}>{props.index < 14 && props.index > 7 && props.houseCount}</span>
 
       <div className='house' style={houseStyle} onClick={(e) => props.onClick(e, props.index)}>
-      
+      {props.index}
         {new Array(props.houseCount).fill(1).map((item, index) => {
           return <Stone key={index} position={index} />
           // pass a prop to stone called isMoving. if clicked then isMoving is true.

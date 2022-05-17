@@ -32,9 +32,9 @@ import styled, { keyframes } from 'styled-components';
 // `
 
 function App() {
-
+  const DEMO_STATE = [0, 2, 5, 0, 0, 0, 1, 0, 1, 2, 3, 0, 0, 1,0]
   const INITIAL_BOARD_STATE = [0, 4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4]
-  const [board, setBoard] = useState(INITIAL_BOARD_STATE)
+  const [board, setBoard] = useState(DEMO_STATE)
   const [gameOver, setGameOver] = useState(false)
   const [player1, setPlayer1] = useState(true)
   const [isMoving, setIsMoving] = useState(false)
@@ -44,14 +44,41 @@ function App() {
   const topOfBoard = useRef()
 
 
+  const checkGameOver = () => {
+  let playerTotal = 0
+
+      if(board[1] === 0 & board[2] === 0 & board[3] === 0 & board[4] === 0 & board[5] === 0 & board[6] === 0 & numberOfStonesInMove === 0)
+        {
+        playerTotal = board[0]
+        for(let i = 8; i < 14; i++){
+            playerTotal = board[i] + playerTotal
+          }
+        setBoard(prevState => [playerTotal, 0,0,0,0,0,0,prevState[7], 0,0,0,0,0,0])
+        setGameOver(true)
+      }else if (board[8] === 0 & board[9] === 0 & board[10] === 0 & board[11] === 0 & board[12] === 0 & board[13] === 0 & numberOfStonesInMove === 0 ) 
+      {
+        playerTotal = board[7]
+        for(let i = 1; i < 7; i++){
+            playerTotal = board[i] + playerTotal
+        }
+        setBoard(prevState => [prevState[0], 0,0,0,0,0,0, playerTotal, 0,0,0,0,0,0])
+        setGameOver(true)
+    }
+  }
+
+
+
   useEffect(
     ()=>{
       if(firstLoad)setFirstLoad(false)
       else{
         setIsMoving(true)
       }
+
     }
   , [stonesAnimationPosition])
+
+
 
   useEffect(
     ()=>{
@@ -59,6 +86,29 @@ function App() {
 
       let playerTotal = 0
 
+
+
+
+      if(!isMoving & numberOfStonesInMove === 0 & board[stonesAnimationPosition.index + 1] === 1 & board[14 - stonesAnimationPosition.index - 1] > 0){
+      
+      
+
+      if(!player1 & stonesAnimationPosition.index + 1 < 7 ){
+          setBoard(prevState => [...prevState, prevState[7] = 1 + prevState[14 - stonesAnimationPosition.index - 1 ] + prevState[7], prevState[stonesAnimationPosition.index + 1] = 0, prevState[14 - stonesAnimationPosition.index - 1 ] = 0 ])
+      }
+      if(player1 & stonesAnimationPosition.index + 1 > 7){
+        setBoard(prevState => [...prevState, prevState[0] = 1 + prevState[14 - stonesAnimationPosition.index - 1 ] + prevState[0],prevState[stonesAnimationPosition.index + 1] = 0, prevState[14 - stonesAnimationPosition.index - 1 ] = 0 ])
+      }
+        
+    }
+      
+
+
+
+
+
+
+      //check if game over
       if(board[1] === 0 & board[2] === 0 & board[3] === 0 & board[4] === 0 & board[5] === 0 & board[6] === 0 )
       {
         playerTotal = board[0]
@@ -78,9 +128,34 @@ function App() {
         setBoard(prevState => [prevState[0], 0,0,0,0,0,0, playerTotal, 0,0,0,0,0,0])
         setGameOver(true)
       }
+
+      checkGameOver()
+      //check if steal other players stones
+      //
+      //if(pocket === 1) & 14 - index > 0 then move to players store
+      /* if(!isMoving){
+      if(stonesAnimationPosition.index === 5){
+        if(board[6] > 4){
+          console.log('here')
+        }
+      }
+    } */
+
+   
+
      }
     }
   , [isMoving])
+
+
+useEffect(()=>{
+  if(!gameOver){
+  checkGameOver()
+  }
+
+},[board])
+
+
 
 
 
@@ -167,8 +242,7 @@ function App() {
       setNumberOfStonesInMove(prevState => prevState - 1)
       setBoard(prevState => [...prevState, prevState[stonesAnimationPosition.index + 1]++ ])
     }
-    
-    
+ 
   }
 
 
@@ -186,14 +260,9 @@ function App() {
     let calculatedStart = (pocketIndex * 130)
     let topStart = topOfBoard.current.offsetTop
     if(pocketIndex < 7){
-      console.log("startX: ", calculatedStart + 250)
-      console.log("endX : ", calculatedStart + 450)
-      //setStonesAnimationPosition({startY: topStart + 300, startX: calculatedStart + 300, endX: 1150 })
       setStonesAnimationPosition({startY: topStart + 300, startX: calculatedStart + 250, endX: calculatedStart + 450, index: pocketIndex })
     }else{
       calculatedStart = (14 - pocketIndex) * 130 
-      console.log("startX: ", calculatedStart + 250)
-      console.log("endX: ", calculatedStart + 250 - 150 )
     
       setStonesAnimationPosition({startY: topStart , startX: calculatedStart + 250, endX: calculatedStart + 250 - 140, index: pocketIndex})
     }
@@ -326,11 +395,14 @@ function App() {
   let gameResult = board[0] === board[7] ? 'Tie!!!' : board[0] < board[7] ? 'Congrats Player 1' : 'Congrats Player 2'
 
   
-
-
+  let oppositeHouse = 14 - stonesAnimationPosition.index - 1
   return (
     <div className="app">
-    
+   Index: {stonesAnimationPosition.index + 1}
+   <br />
+   Opposite: {oppositeHouse}
+   <br />
+    Number of STones: {numberOfStonesInMove}
       <Modal gameOver={gameOver} gameResult={gameResult} modalClickHandler={modalClickHandler} />
       <p style={player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 2</p>
       <Board clickHandler={clickHandler} board={board} gameOver={gameOver} afterAnimation={afterAnimation} isMoving={isMoving} startX={stonesAnimationPosition.startX} endX={stonesAnimationPosition.endX} startY={stonesAnimationPosition.startY} topOfBoard={topOfBoard} />
