@@ -33,16 +33,14 @@ const StonesAnimation = styled.div`
 
 const Board = (props) => {
 
-  
+  let numberOfStonesArray = new Array(props.numberOfStonesInMove).fill(0).map(item => <Stone /> )
+
   return (
       <div className='board' ref={props.topOfBoard}>
-        {
+        {        
         props.isMoving && !props.gameOver && <StonesAnimation onAnimationEnd={props.afterAnimation} startX={props.startX} endX={props.endX} startY={props.startY}> 
-          <Stone style={{position:'absolute', left:'10px', top: '15px', zIndex: '14'}}/>
-          <Stone />
-          <Stone />
-          <Stone />
-          <Stone />
+          {/* <Stone style={{position:'absolute', left:'10px', top: '15px', zIndex: '14'}}/> */}
+          {numberOfStonesArray}
         </StonesAnimation> 
        }
       <House onClick={props.clickHandler} houseCount={props.board[0]} index={0} />
