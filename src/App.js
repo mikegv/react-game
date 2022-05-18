@@ -2,13 +2,14 @@ import './App.css';
 import { useState, useEffect, useRef } from 'react';
 import Board from './components/board/Board';
 import Modal from './components/modal/Modal';
-
+import StartScreen from './components/startScreen/StartScreen';
 
 
 function App() {
   const DEMO_STATE = [0, 2, 5, 0, 0, 0, 1, 0, 1, 2, 3, 0, 0, 1,0]
   const INITIAL_BOARD_STATE = [0, 4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4]
-  const [board, setBoard] = useState(INITIAL_BOARD_STATE)
+  const themesArray = ['basic', 'second', 'third']
+  const [board, setBoard] = useState(DEMO_STATE)
   const [gameOver, setGameOver] = useState(false)
   const [player1, setPlayer1] = useState(true)
   const [isMoving, setIsMoving] = useState(false)
@@ -16,7 +17,8 @@ function App() {
   const [numberOfStonesInMove, setNumberOfStonesInMove] = useState(0)
   const [firstLoad, setFirstLoad] = useState(true)
   const topOfBoard = useRef()
-
+  const [showStartScreen, setShowStartScreen] = useState(true)
+  const [theme, setTheme] = useState('basic')
 
 
   const checkGameOver = () => {
@@ -354,14 +356,31 @@ useEffect(()=>{
     setGameOver(false)
     setPlayer1(true)
     setIsMoving(false)
+    setShowStartScreen(true)
   }
 
+  //
+  //
+  //choose theme
+  const themeClickHandler = (chosenTheme) => {
+    setTheme(chosenTheme)
+  } 
+
+  const startGameButtonHandler = () => {
+    setShowStartScreen(false)
+  }
+
+  if(showStartScreen){
+    return(
+      <StartScreen themeClickHandler={themeClickHandler} startGameButtonHandler={startGameButtonHandler} theme={theme} />
+      )
+  }
   
   return (
     <div className="app">
       <Modal gameOver={gameOver} modalClickHandler={modalClickHandler} board={board} />
-      <p style={player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 2</p>
-      <Board numberOfStonesInMove={numberOfStonesInMove} clickHandler={clickHandler} board={board} gameOver={gameOver} afterAnimation={afterAnimation} isMoving={isMoving} stonesAnimationPosition={stonesAnimationPosition} topOfBoard={topOfBoard} />
+      <p style={player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }} >Player 2</p>
+      <Board theme={theme} numberOfStonesInMove={numberOfStonesInMove} clickHandler={clickHandler} board={board} gameOver={gameOver} afterAnimation={afterAnimation} isMoving={isMoving} stonesAnimationPosition={stonesAnimationPosition} topOfBoard={topOfBoard} />
       <p style={!player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 1</p>
     </div>
   );

@@ -39,7 +39,7 @@ const House = (props) => {
       <div className='store' style={storeStyle}>
       {props.houseCount}
 
-               {new Array(props.houseCount).fill(1).map((item, index) => <Stone position={index} />
+               {new Array(props.houseCount).fill(1).map((item, index) => <Stone theme={props.theme} />
         )}
 
       </div>
@@ -53,7 +53,7 @@ const House = (props) => {
 
       <div className='house' style={houseStyle} onClick={(e) => props.onClick(e, props.index)}>
         {new Array(props.houseCount).fill(1).map((item, index) => {
-          return <Stone key={index} position={index} />
+          return <Stone key={index} theme={props.theme} />
           // pass a prop to stone called isMoving. if clicked then isMoving is true.
           //then inside each stone they move the distance of the next pocket. 
           // if that doesn't work then put the functionality in App.js in the onClick

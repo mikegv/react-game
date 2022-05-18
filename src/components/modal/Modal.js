@@ -23,7 +23,7 @@ const Modal = (props) => {
     padding: '20px'
   }
 
-  let gameResult = board[0] === board[7] ? 'Tie!!!' : board[0] < board[7] ? 'Player 1 Wins!' : 'Player 2!'
+  let gameResult = board[0] === board[7] ? 'Tie!!!' : board[0] < board[7] ? 'Player 1 Wins!' : 'Player 2 Wins!'
 
   return (
   <>

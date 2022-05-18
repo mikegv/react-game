@@ -33,36 +33,36 @@ const StonesAnimation = styled.div`
 
 const Board = (props) => {
 
-  let numberOfStonesArray = props.numberOfStonesInMove > 4 ? [<Stone style={{position:'absolute', left:'10px', top: '15px', zIndex: '14'}}/>,<Stone />,<Stone />,<Stone />,<Stone />] : new Array(props.numberOfStonesInMove).fill(0).map(item => <Stone /> )
+  let numberOfStonesArray = props.numberOfStonesInMove > 4 ? [<Stone theme={props.theme} style={{position:'absolute', left:'10px', top: '15px', zIndex: '14'}}/>,<Stone theme={props.theme} />,<Stone theme={props.theme} />,<Stone theme={props.theme} />,<Stone theme={props.theme} />] : new Array(props.numberOfStonesInMove).fill(0).map(item => <Stone theme={props.theme} /> )
 
   return (
-      <div className='board' ref={props.topOfBoard}>
+      <div className='board' ref={props.topOfBoard}> 
         {        
         props.isMoving && !props.gameOver && <StonesAnimation onAnimationEnd={props.afterAnimation} startX={props.stonesAnimationPosition.startX} endX={props.stonesAnimationPosition.endX} startY={props.stonesAnimationPosition.startY}> 
           {numberOfStonesArray}
         </StonesAnimation> 
        }
-      <House onClick={props.clickHandler} houseCount={props.board[0]} index={0} />
+      <House onClick={props.clickHandler} houseCount={props.board[0]} index={0} theme={props.theme} />
       <div>
         <div className='boardRow'>
-          <House onClick={props.clickHandler} houseCount={props.board[13]} index={13} />
-          <House onClick={props.clickHandler} houseCount={props.board[12]} index={12} />
-          <House onClick={props.clickHandler} houseCount={props.board[11]} index={11} />
-          <House onClick={props.clickHandler} houseCount={props.board[10]} index={10} />
-          <House onClick={props.clickHandler} houseCount={props.board[9]} index={9} />
-          <House onClick={props.clickHandler} houseCount={props.board[8]} index={8} />
+          <House onClick={props.clickHandler} houseCount={props.board[13]} index={13} theme={props.theme} />
+          <House onClick={props.clickHandler} houseCount={props.board[12]} index={12} theme={props.theme} />
+          <House onClick={props.clickHandler} houseCount={props.board[11]} index={11} theme={props.theme} />
+          <House onClick={props.clickHandler} houseCount={props.board[10]} index={10} theme={props.theme} />
+          <House onClick={props.clickHandler} houseCount={props.board[9]} index={9} theme={props.theme} />
+          <House onClick={props.clickHandler} houseCount={props.board[8]} index={8} theme={props.theme} />
         </div>
 
         <div className='boardRow' >
-          <House onClick={props.clickHandler} houseCount={props.board[1]} index={1} />
-          <House onClick={props.clickHandler} houseCount={props.board[2]} index={2} />
-          <House onClick={props.clickHandler} houseCount={props.board[3]} index={3} />
-          <House onClick={props.clickHandler} houseCount={props.board[4]} index={4} />
-          <House onClick={props.clickHandler} houseCount={props.board[5]} index={5} />
-          <House onClick={props.clickHandler} houseCount={props.board[6]} index={6} />
+          <House onClick={props.clickHandler} houseCount={props.board[1]} index={1} theme={props.theme} />
+          <House onClick={props.clickHandler} houseCount={props.board[2]} index={2} theme={props.theme} />
+          <House onClick={props.clickHandler} houseCount={props.board[3]} index={3} theme={props.theme} />
+          <House onClick={props.clickHandler} houseCount={props.board[4]} index={4} theme={props.theme} />
+          <House onClick={props.clickHandler} houseCount={props.board[5]} index={5} theme={props.theme} />
+          <House onClick={props.clickHandler} houseCount={props.board[6]} index={6} theme={props.theme} />
         </div>
       </div>
-      <House onClick={props.clickHandler} houseCount={props.board[7]} index={7} />
+      <House onClick={props.clickHandler} houseCount={props.board[7]} index={7} theme={props.theme} />
     </div>
     );
 };
