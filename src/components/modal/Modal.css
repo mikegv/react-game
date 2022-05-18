@@ -1,4 +1,18 @@
-.modal > button{
+.modalContent{
+    background-color: rgb(240,240,240);
+    padding: 50px;
+    width: 25%;
+    border-radius: 10px;
+    text-align: center;
+    font-size: larger;
+    font-weight: bolder;
+}
+.playerScore{
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 500;
+}
+.modal button{
     padding: 20px;
     border-radius: 10px;
     margin-top:20px;
@@ -6,7 +20,7 @@
     font-size: large;
 }
 
-.modal > button:hover{
+.modal button:hover{
     cursor:pointer;
     background-color: rgb(36, 241, 36);
 }

@@ -11,7 +11,7 @@ const houseStyle = {
   boxShadow: 'inset 5px 6px 4px 3px  #000001', /*offset-x offset-y blur-radius spread-radius*/
   borderRadius: '30%',
   margin: '4px',
-  // overflow: 'hidden'
+  overflow: 'hidden'
 }
 const storeStyle = {
   border: 'solid black 2px',
@@ -23,10 +23,10 @@ const storeStyle = {
   borderRadius: '30%',
   margin: '4px',
   textAlign: 'center',
-  fontWeight: 'bolder'
-  // display: 'flex',
-  // alignItems: 'center',
-  // justifyContent: 'center'
+  fontWeight: 'bolder',
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'center'
 }
 
 const House = (props) => {
@@ -35,12 +35,13 @@ const House = (props) => {
   if (props.index === 0 || props.index === 7) {
     return (
       <>
+
       <div className='store' style={storeStyle}>
-       
-        {props.houseCount}
-        <br />
-        {new Array(props.houseCount).fill(1).map((item, index) => <Stone position={index} />
+      {props.houseCount}
+
+               {new Array(props.houseCount).fill(1).map((item, index) => <Stone position={index} />
         )}
+
       </div>
       </>
     )
@@ -51,7 +52,6 @@ const House = (props) => {
       <span style={{ fontWeight: 'bolder' }}>{props.index < 14 && props.index > 7 && props.houseCount}</span>
 
       <div className='house' style={houseStyle} onClick={(e) => props.onClick(e, props.index)}>
-      {props.index}
         {new Array(props.houseCount).fill(1).map((item, index) => {
           return <Stone key={index} position={index} />
           // pass a prop to stone called isMoving. if clicked then isMoving is true.

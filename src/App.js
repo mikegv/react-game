@@ -390,20 +390,11 @@ useEffect(()=>{
     setIsMoving(false)
   }
 
-  //store the result of the game for displaying on screen
-  //
-  let gameResult = board[0] === board[7] ? 'Tie!!!' : board[0] < board[7] ? 'Congrats Player 1' : 'Congrats Player 2'
 
   
-  let oppositeHouse = 14 - stonesAnimationPosition.index - 1
   return (
     <div className="app">
-   Index: {stonesAnimationPosition.index + 1}
-   <br />
-   Opposite: {oppositeHouse}
-   <br />
-    Number of STones: {numberOfStonesInMove}
-      <Modal gameOver={gameOver} gameResult={gameResult} modalClickHandler={modalClickHandler} />
+      <Modal gameOver={gameOver} modalClickHandler={modalClickHandler} board={board} />
       <p style={player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 2</p>
       <Board numberOfStonesInMove={numberOfStonesInMove} clickHandler={clickHandler} board={board} gameOver={gameOver} afterAnimation={afterAnimation} isMoving={isMoving} startX={stonesAnimationPosition.startX} endX={stonesAnimationPosition.endX} startY={stonesAnimationPosition.startY} topOfBoard={topOfBoard} />
       <p style={!player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 1</p>

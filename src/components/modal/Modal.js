@@ -5,6 +5,8 @@ import ReactDOM from 'react-dom'
 
 const Modal = (props) => {
 
+  let board = props.board
+
   const modalStyle = {
     height: '100%',
     width: '100vw',
@@ -21,15 +23,28 @@ const Modal = (props) => {
     padding: '20px'
   }
 
+  let gameResult = board[0] === board[7] ? 'Tie!!!' : board[0] < board[7] ? 'Player 1 Wins!' : 'Player 2!'
+
   return (
   <>
     {ReactDOM.createPortal(
     <div className='modal' style={modalStyle}>
-      <p style={{ backgroundColor: 'rgb(240,240,240)',padding: '20px' }}>Game Over</p>
+      <div className='modalContent' >
+      <p >Game Over</p>
       <br />
-      <p style={{ backgroundColor: 'rgb(240,240,240)',padding: '20px' }}> {props.gameResult}</p>
+      
+      
+      <div className='playerScore'>Player 1 Score: {board[7]}</div>
+      
+      <br />
+      <p className='playerScore'>Player 2 Score: {board[0]} </p>
+      
+      
+      <br />
+      <p> {gameResult}</p>
       <br />
       <button onClick={props.modalClickHandler}>New Game</button>
+      </div>
     </div>
     , document.getElementById('modal-root'))}
     </>
