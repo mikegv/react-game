@@ -3,7 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 import Board from './components/board/Board';
 import Modal from './components/modal/Modal';
 import Stone from './components/stones/Stone';
-
+import useSound from 'use-sound';
+import soundEffect from './269849__iujhu__snow-12.wav'
 import styled, { keyframes } from 'styled-components';
 
 // //
@@ -42,7 +43,7 @@ function App() {
   const [numberOfStonesInMove, setNumberOfStonesInMove] = useState(0)
   const [firstLoad, setFirstLoad] = useState(true)
   const topOfBoard = useRef()
-
+  const [play] = useSound(soundEffect)
 
   const checkGameOver = () => {
   let playerTotal = 0
@@ -149,6 +150,7 @@ function App() {
 
 
 useEffect(()=>{
+  play()
   if(!gameOver){
   checkGameOver()
   }
@@ -164,6 +166,7 @@ useEffect(()=>{
     
     let numberCheck = numberOfStonesInMove - 1
     let moveXBy
+
     if(stonesAnimationPosition.index < 6){
       moveXBy = 130
     }else{
