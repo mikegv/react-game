@@ -2,34 +2,8 @@ import './App.css';
 import { useState, useEffect, useRef } from 'react';
 import Board from './components/board/Board';
 import Modal from './components/modal/Modal';
-import Stone from './components/stones/Stone';
 
-import styled, { keyframes } from 'styled-components';
 
-// //
-// //keyframes for stonesAnimation
-// const move = (startX, endX) => keyframes`
-//   from {
-//     left: ${startX + 'px'};
-//   }
-//   to {
-//     left: ${endX + 'px'};
-//   }
-// `
-// //
-// //styled component for the animation
-// const StonesAnimation = styled.div`
-//   width: 50px;
-//   height: 50px;
-//   background-color: blueviolet;
-//   position: absolute;
-//   left: ${props => props.endX + 'px'};
-//   top: ${props => props.startY + 'px'};
-//   z-index: 13;
-//   animation-name: ${props => move(props.startX, props.endX)};
-//   animation-duration:2s;
-//   animation-timing-function: ease-in-out;
-// `
 
 function App() {
   const DEMO_STATE = [0, 2, 5, 0, 0, 0, 1, 0, 1, 2, 3, 0, 0, 1,0]
@@ -44,7 +18,9 @@ function App() {
   const topOfBoard = useRef()
 
 
+
   const checkGameOver = () => {
+  
   let playerTotal = 0
 
       if(board[1] === 0 & board[2] === 0 & board[3] === 0 & board[4] === 0 & board[5] === 0 & board[6] === 0 & numberOfStonesInMove === 0)
@@ -74,7 +50,6 @@ function App() {
       else{
         setIsMoving(true)
       }
-
     }
   , [stonesAnimationPosition])
 
@@ -85,9 +60,6 @@ function App() {
      if(!isMoving){
 
       let playerTotal = 0
-
-
-
 
       if(!isMoving & numberOfStonesInMove === 0 & board[stonesAnimationPosition.index + 1] === 1 & board[14 - stonesAnimationPosition.index - 1] > 0){
       
@@ -105,18 +77,13 @@ function App() {
 
 
 
-
-
-
       //check if game over
       if(board[1] === 0 & board[2] === 0 & board[3] === 0 & board[4] === 0 & board[5] === 0 & board[6] === 0 )
       {
         playerTotal = board[0]
         for(let i = 8; i < 14; i++){
             playerTotal = board[i] + playerTotal
-        }
-        console.log('player1 finished')
-        
+        }        
         setBoard(prevState => [playerTotal, 0,0,0,0,0,0,prevState[7], 0,0,0,0,0,0])
         setGameOver(true)}
       else if (board[8] === 0 & board[9] === 0 & board[10] === 0 & board[11] === 0 & board[12] === 0 & board[13] === 0 ) {
@@ -124,7 +91,6 @@ function App() {
         for(let i = 1; i < 7; i++){
             playerTotal = board[i] + playerTotal
         }
-        console.log('player2 finished')
         setBoard(prevState => [prevState[0], 0,0,0,0,0,0, playerTotal, 0,0,0,0,0,0])
         setGameOver(true)
       }
@@ -390,13 +356,12 @@ useEffect(()=>{
     setIsMoving(false)
   }
 
-
   
   return (
     <div className="app">
       <Modal gameOver={gameOver} modalClickHandler={modalClickHandler} board={board} />
       <p style={player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 2</p>
-      <Board numberOfStonesInMove={numberOfStonesInMove} clickHandler={clickHandler} board={board} gameOver={gameOver} afterAnimation={afterAnimation} isMoving={isMoving} startX={stonesAnimationPosition.startX} endX={stonesAnimationPosition.endX} startY={stonesAnimationPosition.startY} topOfBoard={topOfBoard} />
+      <Board numberOfStonesInMove={numberOfStonesInMove} clickHandler={clickHandler} board={board} gameOver={gameOver} afterAnimation={afterAnimation} isMoving={isMoving} stonesAnimationPosition={stonesAnimationPosition} topOfBoard={topOfBoard} />
       <p style={!player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }}>Player 1</p>
     </div>
   );
