@@ -13,29 +13,6 @@
     margin: 10px;
 }
 
-.titleText{
-    font-family: 'Press Start 2P', cursive;
-    font-size: 50px;
-    
-}
-.front{
-
-}
-.back{
-  color: blue;
-  position: absolute;
-  left: 3px;
-  top: 1px;  
-}
-.titleArea{
-    height: 50px;
-    width: 350px;
-    position: relative;
-    text-align: center;
-    margin-bottom: 20px;
-    margin-top: 20px;
-}
-
 .startScreen > button{
     padding: 10px;
     border-radius: 5px;
@@ -71,25 +48,4 @@
 .startButton:hover{
     cursor:pointer;
     background-color: rgb(36, 241, 36);
-}
-.themeChooserArea{
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 50%;
-}
-
-.themeChooserArea button{
-    padding: 5px;
-    cursor:pointer;
-}
-
-.themeChooser{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.themeChooser > *{
-    margin-top: 10px;
 }

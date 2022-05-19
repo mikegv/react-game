@@ -3,11 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import Board from './components/board/Board';
 import Modal from './components/modal/Modal';
 import StartScreen from './components/startScreen/StartScreen';
-import NatureImageBackground from './images/natureBackground.jpg'
-
-
-import img1 from './images/natureBackground.jpg'
-import img2 from './images/outerspaceBackground.jpg'
 
 
 function App() {
@@ -24,8 +19,6 @@ function App() {
   const topOfBoard = useRef()
   const [showStartScreen, setShowStartScreen] = useState(true)
   const [theme, setTheme] = useState('basic')
-  const [backgroundImage, setBackgroundImage] = useState('img1')
-
 
 
   const checkGameOver = () => {
@@ -372,9 +365,6 @@ useEffect(()=>{
   const themeClickHandler = (chosenTheme) => {
     setTheme(chosenTheme)
   } 
-  const backgroundClickHandler = (chosenBackgroundImage) =>{
-    setBackgroundImage(chosenBackgroundImage)
-  }
 
   const startGameButtonHandler = () => {
     setShowStartScreen(false)
@@ -382,22 +372,12 @@ useEffect(()=>{
 
   if(showStartScreen){
     return(
-        <StartScreen 
-          themeClickHandler={themeClickHandler} 
-          startGameButtonHandler={startGameButtonHandler} 
-          backgroundClickHandler={backgroundClickHandler} 
-          backgroundImage={backgroundImage} 
-          theme={theme} 
-        />
+      <StartScreen themeClickHandler={themeClickHandler} startGameButtonHandler={startGameButtonHandler} theme={theme} />
       )
   }
-
-  let backgroundImageUrl = backgroundImage === 'img1' ? img1 : img2
   
   return (
-
-    
-    <div className="app" style={{backgroundImage: `url(${backgroundImageUrl})`}}>
+    <div className="app">
       <Modal gameOver={gameOver} modalClickHandler={modalClickHandler} board={board} />
       <p style={player1 ? { color: 'black' } : { color: 'rgb(21, 255, 28)' }} >Player 2</p>
       <Board theme={theme} numberOfStonesInMove={numberOfStonesInMove} clickHandler={clickHandler} board={board} gameOver={gameOver} afterAnimation={afterAnimation} isMoving={isMoving} stonesAnimationPosition={stonesAnimationPosition} topOfBoard={topOfBoard} />
