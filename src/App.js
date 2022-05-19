@@ -260,7 +260,7 @@ useEffect(()=>{
     } */
 
     index--
-    ///if you landed on am empty house steal the other sides stones
+    ///if you landed on am empty house steal the other players stones
     ///
     ////
     if(player1 & index < 7 & index > 0 & state[index] === 1 & state[14-index] > 0){

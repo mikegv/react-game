@@ -1,0 +1,56 @@
+.collapsibleSection{
+  
+}
+.topOfCollapsible{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    align-self: flex-end;
+    padding-top: 15px;
+}
+.openButton{
+    padding: 3px;
+    margin: 20px;
+    border: none;
+    border-radius: 8px;
+    /* width: 35px;
+height: 35px; */
+    /* background: blue; */
+box-shadow: inset 2.33333px -2.33333px 2.33333px rgba(149, 149, 149, 0.1), inset -2.33333px 2.33333px 2.33333px rgba(255, 255, 255, 0.1);
+}
+.openButton:hover{
+    cursor:pointer;
+}
+.openButton img{
+    transform: translateY(2px);
+}
+.openButton.closeButton{
+    justify-content: flex-end;
+}
+.closeButton img{
+    transform: rotate(180deg);
+}
+
+.collapsableArea{
+    display: none;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+ text-align: center;
+}
+
+.collapsableArea * {
+    margin-top: 20px;
+}
+.collapsableArea h2{
+    color:rgb(48, 82, 234);
+}
+.collapsableArea.showCollapsableArea{
+    display: flex;
+    height: fit-content;
+}
+
+.showCollapsableArea > div{
+    margin-bottom: 50px;
+}

@@ -1,6 +1,6 @@
 .startScreen{
     background-color: black;
-    height: 100%;
+    min-height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -10,11 +10,42 @@
 }
 
 .startScreen > *{
-    margin: 20px;
+    margin: 10px;
+}
+
+.startScreen > button{
+    padding: 10px;
+    border-radius: 5px;
+}
+.startScreen > button:hover{
+    cursor: pointer;
 }
 .imageContainer{
     background-color: white;
     height:90px;
     width: 300px;
     overflow: hidden;
+}
+
+
+.collapsible{
+    background-color: greenyellow;
+}
+.collapsible .closeX:hover{
+    cursor: pointer;
+}
+
+
+
+.startButton{
+    padding: 20px;
+    border-radius: 10px;
+    margin-top:20px;
+    background-color: rgb(84, 232, 84);
+    font-size: large;
+}
+
+.startButton:hover{
+    cursor:pointer;
+    background-color: rgb(36, 241, 36);
 }
