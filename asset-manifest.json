@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "//react-game/static/css/main.0c846c3f.css",
+    "main.js": "//react-game/static/js/main.0e7318b7.js",
+    "static/js/787.5dbb482b.chunk.js": "//react-game/static/js/787.5dbb482b.chunk.js",
+    "static/media/natureBackground.jpg": "//react-game/static/media/natureBackground.8171bfe9e3aba6b8361d.jpg",
+    "static/media/spaceBackgroundPreview.PNG": "//react-game/static/media/spaceBackgroundPreview.a4132562495a56d472dd.PNG",
+    "static/media/natureBackgroundPreview.PNG": "//react-game/static/media/natureBackgroundPreview.7e50338b66af5a8a64eb.PNG",
+    "static/media/secondTheme.PNG": "//react-game/static/media/secondTheme.5c15963eb6a6407555a7.PNG",
+    "static/media/thirdTheme.PNG": "//react-game/static/media/thirdTheme.107a5a11c329cb210cda.PNG",
+    "static/media/basicTheme.PNG": "//react-game/static/media/basicTheme.d1012687f07f84519e12.PNG",
+    "static/media/woodenBoard2.jpg": "//react-game/static/media/woodenBoard2.0ce82c7857d1a09f721a.jpg",
+    "static/media/outerspaceBackground.jpg": "//react-game/static/media/outerspaceBackground.51126279a9575ca9e92f.jpg",
+    "index.html": "//react-game/index.html",
+    "main.0c846c3f.css.map": "//react-game/static/css/main.0c846c3f.css.map",
+    "main.0e7318b7.js.map": "//react-game/static/js/main.0e7318b7.js.map",
+    "787.5dbb482b.chunk.js.map": "//react-game/static/js/787.5dbb482b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0c846c3f.css",
+    "static/js/main.0e7318b7.js"
+  ]
+}
